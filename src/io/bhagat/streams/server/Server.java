@@ -102,15 +102,19 @@ public class Server extends Thread{
                     synchronized (inputStream) {
                         readObject = inputStream.readObject();
                         connectionIndex.setObject(readObject);
-                        System.out.println("Connection " + connectionIndex.getIndex() + ": " + readObject);
+                        print(readObject);
                     }
                 } catch(EOFException | SocketException e) {
-                    System.out.println("Connection " + connectionIndex.getIndex() + ": " + connectionIndex.getHostname() + " left");
+                    print(connectionIndex.getHostname() + " left");
                     close();
                 } catch (ClassNotFoundException | IOException e) {
                     e.printStackTrace();
                 }
             }
+        }
+
+        public void print(Object o) {
+            System.out.println("Connection " + connectionIndex.getIndex() + ": " + o);
         }
 
         public void send(Object obj) {
